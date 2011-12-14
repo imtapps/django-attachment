@@ -1,0 +1,16 @@
+
+<div class="attachment_form">
+    <a class="add_attachment" href="#">Add Attachment</a>
+    <fieldset class="{% if not attachment_form.has_description %}hidden{% endif %}">
+        <legend>Add Attachment</legend>
+        <div style="float:left;">
+        <ul>
+        {% for field in attachment_form %}
+        <li{% if field.field.hide %} class="hidden"{% endif %}>
+            <label for="{{ field.auto_id }}" class="help" {% if field.field.required %}style="font-weight:bold;"{% endif %}>{{ field.label }}</label>{{ field }}
+        </li>
+        {% endfor %}
+        </ul>
+        </div>
+    </fieldset>
+</div>

@@ -1,0 +1,114 @@
+
+<script type="text/javascript" src="{{ STATIC_URL }}attachments/jquery.jcarousel.min.js"></script>
+<script type="text/javascript">
+    $('.jcarousel-skin-tango li').hover(function(){
+        $('div', $(this)).css({display:'block'});
+    }, function(){
+        $('div', $(this)).css({display:'none'});
+    });
+
+    function getAttachment(option){
+        var attachment = $(option).parent().siblings('.attachment');
+        var preview_url = $('.preview', $(option).parents('li')).html();
+        var download_url = $('.download', $(option).parents('li')).html();
+        var file_name = $('.file_name', $(option).parents('li')).html();
+        var timestamp = $('.timestamp', $(option).parents('li')).html();
+
+        return {
+            id:attachment.attr('id'),
+            title:attachment.attr('title'),
+            preview_url:preview_url,
+            download_url:download_url,
+            file_name:file_name,
+            timestamp:timestamp
+        };
+    }
+
+    var dialog_options = { autoOpen: false, width:600, height:500, modal:true,resizable: false};
+    $("#view_dialog").dialog(dialog_options);
+    $("#edit_dialog").dialog(dialog_options);
+    $("#delete_dialog").dialog(dialog_options);
+
+    $(document).ready(function(){
+
+        $('#attachments').jcarousel();
+
+        $('.view_attachment').click(function(){
+            var attachment = getAttachment(this);
+            $('#view_dialog_image').attr('src', attachment.preview_url);
+            $('#view_file_name').html(attachment.file_name);
+            $('#view_timestamp').html(attachment.timestamp);
+            $('#view_description').html(attachment.title);
+            $('#view_download').attr('href', attachment.download_url);
+            $("#view_dialog").dialog('open');
+            return false;
+        });
+
+        $('.edit_attachment').click(function(){
+            var attachment = getAttachment(this);
+            $('#edit_attachment_id').val(attachment.id);
+            $('#edit_dialog_image').attr('src', attachment.preview_url);
+            $('#edit_file_name').html(attachment.file_name);
+            $('#edit_timestamp').html(attachment.timestamp);
+            $('#edit_description').val(attachment.title);
+            $("#edit_dialog").dialog('open');
+            return false;
+        });
+
+        $('.delete_attachment').click(function(){
+            var attachment = getAttachment(this);
+            $('#delete_attachment_id').val(attachment.id);
+            $('#delete_dialog_image').attr('src', attachment.preview_url);
+            $('#delete_file_name').html(attachment.file_name);
+            $('#delete_timestamp').html(attachment.timestamp);
+            $('#delete_description').html(attachment.title);
+            $("#delete_dialog").dialog('open');
+            return false;
+        });
+
+        $('#edit_attachment_form').submit(function(){
+            var id = $('#edit_attachment_id').attr('id');
+            var attachment = $('#' + id);
+            var description = $('#edit_description').val();
+            $.ajax({
+                url: '{% url attachments:edit %}',
+                method: 'POST',
+                data: {
+                    id:$('#edit_attachment_id').val(),
+                    description:description
+                },
+                complete:function(){
+                    //don't warn about unsaved changes on the page
+                    changes = false;
+                    //reload the page to update the images
+                    document.location.href = document.location.href;
+                }
+            });
+            return false;
+        });
+
+        $('#delete_attachment_form').submit(function(){
+            var id = $('#delete_attachment_id').attr('id');
+            var attachment = $('#' + id);
+            $.ajax({
+                url: '{% url attachments:delete %}',
+                method:'POST',
+                data: {
+                    id:$('#delete_attachment_id').val()
+                },
+                complete:function(){
+                    //don't warn about unsaved changes on the page
+                    changes = false;
+                    //reload the page to update the images
+                    document.location.href = document.location.href;
+                }
+            });
+            return false;
+        });
+
+        $(".add_attachment").click(function() {
+           $(".attachment_form fieldset").slideToggle("fast"); 
+        });
+    });
+
+</script>

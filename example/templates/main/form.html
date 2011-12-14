@@ -1,0 +1,26 @@
+{% include 'attachments/style.html' %}
+
+<form method="post" enctype="MULTIPART/FORM-DATA" action="{% url create %}">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" />
+</form>
+
+{% include 'attachments/slider.html' %}
+{% include 'attachments/dialog.html' %}
+
+{% comment %}
+<ul>
+    {% for attachment in attachments %}
+        <li>
+            <img src="{% url attachments:thumbnail attachment.pk %}" /> 
+            <img src="{% url attachments:preview attachment.pk %}" />
+            <a href="{% url attachments:download attachment.pk %}">Download</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endcomment %}
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
+{% include 'attachments/script.html' %}

@@ -1,0 +1,58 @@
+<link href="{{ STATIC_URL }}attachments/jcarouselskin.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    .attachment_form .hidden {display: none;}
+    .jcarousel-item {overflow:hidden;}
+    .add_attachment {background: url({{ STATIC_URL }}attachments/attach.png) right center no-repeat; padding-right: 20px; cursor: pointer; text-decoration: underline;}
+
+
+    .jcarousel-skin-tango .jcarousel-prev-horizontal {
+       position: absolute;
+       top: 43px;
+       left: 5px;
+       width: 32px;
+       height: 32px;
+       cursor: pointer;
+       background: transparent url({{ STATIC_URL }}attachments/jcarousel/prev-horizontal.png) no-repeat 0 0;
+   }
+
+   .jcarousel-skin-tango .jcarousel-direction-rtl .jcarousel-prev-horizontal {
+       left: auto;
+       right: 5px;
+       background-image: url({{ STATIC_URL }}attachments/jcarousel/next-horizontal.png);
+   }
+    .jcarousel-skin-tango .jcarousel-next-horizontal {
+        position: absolute;
+        top: 43px;
+        right: 5px;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        background: transparent url({{ STATIC_URL }}attachments/jcarousel/next-horizontal.png) no-repeat 0 0;
+    }
+
+    .jcarousel-skin-tango .jcarousel-direction-rtl .jcarousel-next-horizontal {
+        left: 5px;
+        right: auto;
+        background-image: url({{ STATIC_URL }}attachments/prev-horizontal.png);
+    }
+    .jcarousel-skin-tango .jcarousel-next-vertical {
+        position: absolute;
+        bottom: 5px;
+        left: 43px;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        background: transparent url({{ STATIC_URL }}attachments/jcarousel/next-vertical.png) no-repeat 0 0;
+    }
+
+    .jcarousel-skin-tango .jcarousel-prev-vertical {
+        position: absolute;
+        top: 5px;
+        left: 43px;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        background: transparent url({{ STATIC_URL }}attachments/jcarousel/prev-vertical.png) no-repeat 0 0;
+    }
+
+</style>

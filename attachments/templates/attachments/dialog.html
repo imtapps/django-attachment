@@ -1,0 +1,79 @@
+<div id="view_dialog" class="dialog">
+     <img id="view_dialog_image"/>
+     <table style="margin:auto;">
+         <tr>
+             <th>File Name</th>
+             <td id="view_file_name">&nbsp;</td>
+         </tr>
+         <tr>
+             <th>Description</th>
+             <td id="view_description">&nbsp;</td>
+         </tr>
+         <tr>
+             <th>Attached At</th>
+             <td id="view_timestamp"></td>
+         </tr>
+         <tr>
+             <th>Options</th>
+             <td><a id="view_download" rel="ext">Download</a></td>
+         </tr>
+     </table>
+ </div>
+
+ <div id="edit_dialog" class="dialog">
+     <img id="edit_dialog_image" /><br />
+     <table style="margin:auto;">
+         <tr>
+             <th>File Name</th>
+             <td id="edit_file_name">&nbsp;</td>
+         </tr>
+         <tr>
+             <th>Attached At</th>
+             <td id="edit_timestamp"></td>
+         </tr>
+     </table>
+
+     <form action="" id="edit_attachment_form">
+     <fieldset>
+     <legend>Edit Attachment</legend>
+     <ul>
+         <li>
+             <input type="hidden" id="edit_attachment_id" />
+             <label for="edit_description"></label><br />
+             <input type="text" name="edit_attachment_description" id="edit_description" maxlength="256"/>
+         </li>
+     </ul>
+
+     <div class="buttonGroup buttonRight">
+         <input type="submit" name="wizard_save" class="f" value="Save" />
+     </div>
+     </fieldset>
+     </form>
+ </div>
+
+ <div id="delete_dialog" class="dialog">
+     <img id="delete_dialog_image" /><br />
+     <table style="margin:auto;">
+         <tr>
+             <th>File Name</th>
+             <td id="delete_file_name">&nbsp;</td>
+         </tr>
+         <tr>
+             <th>Description</th>
+             <td id="delete_description">&nbsp;</td>
+         </tr>
+         <tr>
+             <th>Attached At</th>
+             <td id="delete_timestamp"></td>
+         </tr>
+     </table>
+     <form action="" id="delete_attachment_form">
+         <input type="hidden" id="delete_attachment_id" />
+     <fieldset>
+     <legend>Are you sure you want to delete this attachment?</legend>
+     <div class="buttonGroup buttonRight">
+         <input type="submit" name="wizard_save" class="f" value="Delete" />
+     </div>
+     </fieldset>
+     </form>
+ </div>

@@ -1,0 +1,14 @@
+{% for attachment in attachments %}
+    <li style="position:relative;">
+        <div style="position:absolute;top:0;right:0;width:100%;text-align:center;background-color:#09f;display:none;">
+            <image src="{{ STATIC_URL }}attachments/eye.png" alt="View" title="View" class="view_attachment clickable" />
+            <input type="image" src="{{ STATIC_URL }}attachments/pencil.png" alt="Edit" title="Edit" class="edit_attachment"/>
+            <input type="image" src="{{ STATIC_URL }}attachments/delete.png" alt="Delete" title="Delete" class="delete_attachment" />
+        </div>
+        <img id="{{ attachment.pk }}" class="attachment" src="{{ attachment.thumb }}" alt="{{ attachment.description }}" title="{{ attachment.description }}" />
+        <span style="display:none;" class="preview">{{ attachment.preview }}</span>
+        <span style="display:none;" class="download">{% url attachments:download attachment.pk %}</span>
+        <span style="display:none;" class="file_name">{{ attachment.file_name }}</span>
+        <span style="display:none;" class="timestamp">{{ attachment.attached_at }}</span>
+    </li>
+{% endfor %}
