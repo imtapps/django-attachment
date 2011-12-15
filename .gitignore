@@ -44,3 +44,4 @@ celeryd.pid
 node_modules/*
 
 virtualenv
+dist/*
