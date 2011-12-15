@@ -1,6 +1,6 @@
 import os
 import re
-from setuptools import setup
+from setuptools import setup, find_packages
 from distutils.core import Command
 
 REQUIREMENTS = [
@@ -20,13 +20,14 @@ TEST_REQUIREMENTS = [
 def do_setup():
     setup(
         name="django-attachments",
-        version='0.0.1',
+        version='0.0.2',
         author="Matthew J. Morrison",
         author_email="mattjmorrison@mattjmorrison.com",
         description="A django app to allow attachments to any model.",
         long_description=open('README.txt', 'r').read(),
         url="https://github.com/imtapps/django-attachments",
-        packages=("attachments",),
+        packages=find_packages(exclude="example"),
+        include_package_data=True,
         install_requires=REQUIREMENTS,
         tests_require=TEST_REQUIREMENTS,
         test_suite='runtests.runtests',

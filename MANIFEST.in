@@ -1,0 +1,5 @@
+include LICENSE
+include MANIFEST.in
+
+recursive-include attachments/static *
+recursive-include attachments/templates *
