@@ -63,7 +63,7 @@ class AttachmentTests(test.TestCase):
         first_model, second_model = Mock(), Mock()
         attachment = Mock()
         Attachment.get_attachments_for.return_value = [attachment]
-        result = Attachment.get_attachments_for_list([first_model, second_model])
+        result = list(Attachment.get_attachments_for_list([first_model, second_model]))
         self.assertEqual([
             ((first_model,), {}),
             ((second_model,), {}),

@@ -146,7 +146,6 @@ class Attachment(models.Model):
 
     @staticmethod
     def get_attachments_for_list(list_of_models):
-        attachments = []
         for model in list_of_models:
-            attachments += list(Attachment.get_attachments_for(model))
-        return attachments
+            for attachment in Attachment.get_attachments_for(model):
+                yield attachment
