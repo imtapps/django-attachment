@@ -20,7 +20,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'attachments',                      # Or path to database file if using sqlite3.
-        'USER':'test_user',
+        'USER':'attachment_user',
         'PASSWORD':'test',
         'HOST':'/opt/lampp/var/mysql/mysql.sock',
     }

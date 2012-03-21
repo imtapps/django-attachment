@@ -5,13 +5,13 @@ from distutils.core import Command
 
 REQUIREMENTS = [
     'Django==1.3.1',
-    'PIL==1.1.7',
+    'pillow',
     'South==0.7.3',
     'MySQL-python==1.2.3',
 ]
 
 TEST_REQUIREMENTS = [
-    'mock==0.7.0b4',
+    'mock',
     'django-jenkins',
     'pep8',
     'pyflakes',
