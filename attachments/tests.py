@@ -1,4 +1,5 @@
 from django import test
+from django.core.exceptions import ValidationError
 
 from mock import Mock, patch
 
@@ -221,6 +222,22 @@ class AttachmentTests(test.TestCase):
     def test_require_attachment_when_description_is_present(self):
         form = forms.OptionalAttachmentForm({'attachment-description':"somefile.doc"})
         self.assertFalse(form.is_valid())
+
+    def test_clean_raises_validation_error_when_instance_has_invalid_mime_type(self):
+        file = Mock()
+        file.name = "asdf.zip"
+        files = {'attachment-attachment': file}
+        form = forms.RequiredAttachmentForm(data={}, files=files)
+        with self.assertRaises(ValidationError) as validation:
+            form.clean()
+        self.assertEquals(file.name + " has an unsupported file type", validation.exception.messages[0])
+
+    def test_form_is_valid_when_instance_has_valid_mime_type(self):
+        file = Mock()
+        file.name = "asdf.jpg"
+        files = {'attachment-attachment': file}
+        form = forms.RequiredAttachmentForm(data={}, files=files)
+        self.assertEqual(True, form.is_valid())
 
     def test_require_attachment_when_using_required_attachment_form(self):
         form = forms.RequiredAttachmentForm({})

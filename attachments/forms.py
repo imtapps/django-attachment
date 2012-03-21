@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from attachments import models
 
 class RequiredAttachmentForm(forms.ModelForm):
@@ -8,12 +9,22 @@ class RequiredAttachmentForm(forms.ModelForm):
         super(RequiredAttachmentForm, self).__init__(*args, **kwargs)
         self.prefix = 'attachment'
 
+    def clean(self):
+        if self._uploaded_file and not self.instance.get_mime_type(self._uploaded_file.name):
+            raise ValidationError("{} has an unsupported file type".format(self._uploaded_file.name))
+
+        return self.cleaned_data
+
+    @property
+    def _uploaded_file(self):
+        name = self.prefix + '-attachment'
+        return self.files[name] if name in self.files else None
 
     def save(self, model):
         return models.Attachment.objects.create(
                 description=self.cleaned_data.get('description', ''),
                 attach_to=model,
-                attachment=self.files[self.prefix + '-attachment'])
+                attachment=self._uploaded_file)
 
     class Meta:
         model = models.Attachment
