@@ -46,3 +46,6 @@ class OptionalAttachmentForm(RequiredAttachmentForm):
 
 class TaggedAttachmentForm(RequiredAttachmentForm):
     tag = forms.CharField(required=True)
+
+    class Meta(RequiredAttachmentForm.Meta):
+        fields = RequiredAttachmentForm.Meta.fields + ('tag', )

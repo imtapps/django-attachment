@@ -418,3 +418,12 @@ class AttachmentFormTests(test.TestCase):
     def test_tagged_attachment_form_requires_tag_field(self):
         form = forms.TaggedAttachmentForm({})
         self.assertEqual('This field is required.', form.errors['tag'][0])
+
+    def test_tagged_attachment_form_contains_tag_field(self):
+        self.assertIn('tag', forms.TaggedAttachmentForm._meta.fields)
+
+    def test_tagged_attachment_form_contains_description_field(self):
+        self.assertIn('description', forms.TaggedAttachmentForm._meta.fields)
+
+    def test_tagged_attachment_form_contains_attachment_field(self):
+        self.assertIn('attachment', forms.TaggedAttachmentForm._meta.fields)
