@@ -118,6 +118,11 @@ class Attachment(models.Model):
         new_image.save(thumbnail, self.mimetype.split('/')[1])
         return thumbnail.getvalue()
 
+    def get_mime_type(self, file_name):
+        for regex, mime_type in self.MIME_TYPE_EXTENSIONS:
+            if regex.match(file_name):
+                return mime_type
+
     def save(self, force_insert=False, force_update=False, using=None):
         if hasattr(self.attachment, 'name'):
             self.file_name = self.attachment.name
@@ -127,8 +132,6 @@ class Attachment(models.Model):
                 self.mimetype = mime_type
                 self.attachment_type = self.MIME_TYPE_ATTACHMENT_TYPES[mime_type]
                 break
-        else:
-            raise Exception(self.file_name + ' has an unsupported file type')
 
         if hasattr(self.attachment, 'open'):
             self.attachment.open()

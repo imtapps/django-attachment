@@ -110,6 +110,20 @@ class AttachmentTests(test.TestCase):
     #   These tests are attachment type specific (ie: jpg, doc, pdf...)
     #
 
+    def test_does_not_raise_validation_error_for_valid_mime_type(self):
+        second = Second.objects.create(third_field="xyz")
+
+        model = Attachment(
+            file_name="something.jpg",
+            description="alsdkfj",
+            mimetype="image/jpeg",
+            attachment_type=1,
+            attach_to=second,
+            attachment="here is a dummy image blob...."
+        )
+
+        self.assertEqual(None, model.full_clean())
+
     @patch('attachments.models.Attachment.create_thumbnail', Mock(return_value=None))
     def test_derive_mime_type_and_attachment_type_for_jpg(self):
         second = Second.objects.create(third_field="xyz")
@@ -312,7 +326,7 @@ class AttachmentViewTests(test.TestCase):
         file_to_serve = image_server.return_value.test.return_value
         response.assert_called_once_with(file_to_serve, mimetype=attachment.mimetype)
         self.assertEqual(response.return_value, result)
-        
+
 class ImageServerTests(test.TestCase):
 
     def setUp(self):
