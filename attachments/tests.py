@@ -2,6 +2,7 @@ from django import test
 from django.core.exceptions import ValidationError
 
 from mock import Mock, patch
+import mock
 
 from attachments.models import *
 from attachments import forms
@@ -223,15 +224,6 @@ class AttachmentTests(test.TestCase):
         form = forms.OptionalAttachmentForm({'attachment-description':"somefile.doc"})
         self.assertFalse(form.is_valid())
 
-    def test_clean_raises_validation_error_when_instance_has_invalid_mime_type(self):
-        file = Mock()
-        file.name = "asdf.zip"
-        files = {'attachment-attachment': file}
-        form = forms.RequiredAttachmentForm(data={}, files=files)
-        with self.assertRaises(ValidationError) as validation:
-            form.clean()
-        self.assertEquals(file.name + " has an unsupported file type", validation.exception.messages[0])
-
     def test_form_is_valid_when_instance_has_valid_mime_type(self):
         file = Mock()
         file.name = "asdf.jpg"
@@ -365,3 +357,64 @@ class ImageServerTests(test.TestCase):
         result = self.image_server.thumbnail()
         self.attachment.create_thumbnail.assert_called_once_with(max_size=100)
         self.assertEqual(result, self.attachment.create_thumbnail.return_value)
+
+class AttachmentFormTests(test.TestCase):
+
+    def setUp(self):
+        self.form = forms.RequiredAttachmentForm()
+        self.form.cleaned_data = {'description': 'mydesc', 'tag': 'tag'}
+        self.form.files = {'attachment-attachment': 'file'}
+        self.first = First(pk=1)
+
+        self.create_patch = patch('attachments.models.Attachment.objects.create')
+        self.create = self.create_patch.start()
+
+    def tearDown(self):
+        self.create_patch.stop()
+
+    def assert_called_with_arg(self, the_mock, **kwargs):
+        for name, value in kwargs.items():
+            self.assertIn(name, the_mock.call_args[1])
+            self.assertEqual(value, the_mock.call_args[1][name])
+
+    def test_save_creates_attachment_attached_to_provided_model(self):
+        self.form.save(self.first)
+        self.assert_called_with_arg(self.create, attach_to=self.first)
+
+    def test_save_creates_attachment_with_description_from_cleaned_data(self):
+        self.form.save(self.first)
+        self.assert_called_with_arg(self.create, description='mydesc')
+
+    def test_save_creates_attachment_with_description_as_none_when_not_in_cleaned_data(self):
+        self.form.cleaned_data = {}
+        self.form.save(self.first)
+        self.assert_called_with_arg(self.create, description=None)
+
+    def test_save_creates_attachment_with_uploaded_file(self):
+        self.form.save(self.first)
+        self.assert_called_with_arg(self.create, attachment='file')
+
+    def test_save_creates_attachment_with_tag_from_cleaned_data(self):
+        self.form.save(self.first)
+        self.assert_called_with_arg(self.create, tag='tag')
+
+    def test_save_creates_attachment_with_tag_as_none_when_no_tag_in_cleaned_data(self):
+        self.form.cleaned_data = {}
+        self.form.save(self.first)
+        self.assert_called_with_arg(self.create, tag=None)
+
+    def test_clean_raises_validation_error_when_instance_has_invalid_mime_type(self):
+        file = Mock()
+        file.name = "asdf.zip"
+        files = {'attachment-attachment': file}
+        form = forms.RequiredAttachmentForm(data={}, files=files)
+        with self.assertRaises(ValidationError) as validation:
+            form.clean()
+        self.assertEquals(file.name + " has an unsupported file type", validation.exception.messages[0])
+
+    def test_tagged_attachment_form_is_subclass_of_required_attachment_form(self):
+        self.assertTrue(issubclass(forms.TaggedAttachmentForm, forms.RequiredAttachmentForm))
+
+    def test_tagged_attachment_form_requires_tag_field(self):
+        form = forms.TaggedAttachmentForm({})
+        self.assertEqual('This field is required.', form.errors['tag'][0])

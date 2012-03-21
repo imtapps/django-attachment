@@ -22,14 +22,14 @@ class RequiredAttachmentForm(forms.ModelForm):
 
     def save(self, model):
         return models.Attachment.objects.create(
-                description=self.cleaned_data.get('description', ''),
-                attach_to=model,
-                attachment=self._uploaded_file)
+            attach_to=model,
+            description=self.cleaned_data.get('description', None),
+            attachment=self._uploaded_file,
+            tag=self.cleaned_data.get('tag', None),
+        )
 
     class Meta:
         model = models.Attachment
-        #Other fields can be derived based on the model that is being attached to
-        #and the item being attached
         fields = ('description', 'attachment')
 
     def has_description(self):
@@ -43,3 +43,6 @@ class OptionalAttachmentForm(RequiredAttachmentForm):
             raise forms.ValidationError('No file selected')
 
         return self.cleaned_data
+
+class TaggedAttachmentForm(RequiredAttachmentForm):
+    tag = forms.CharField(required=True)
