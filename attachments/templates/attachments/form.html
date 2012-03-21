@@ -2,6 +2,7 @@
 <div class="attachment_form">
     <a class="add_attachment" href="#">Add Attachment</a>
     <fieldset class="{% if not attachment_form.has_description %}hidden{% endif %}">
+        {{ attachment_form.non_field_errors }}
         <legend>Add Attachment</legend>
         <div style="float:left;">
         <ul>
