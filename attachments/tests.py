@@ -401,7 +401,7 @@ class AttachmentFormTests(test.TestCase):
     def test_save_creates_attachment_with_tag_as_none_when_no_tag_in_cleaned_data(self):
         self.form.cleaned_data = {}
         self.form.save(self.first)
-        self.assert_called_with_arg(self.create, tag=None)
+        self.assert_called_with_arg(self.create, tag="")
 
     def test_clean_raises_validation_error_when_instance_has_invalid_mime_type(self):
         file = Mock()

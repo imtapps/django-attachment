@@ -25,7 +25,7 @@ class RequiredAttachmentForm(forms.ModelForm):
             attach_to=model,
             description=self.cleaned_data.get('description', None),
             attachment=self._uploaded_file,
-            tag=self.cleaned_data.get('tag', None),
+            tag=self.cleaned_data.get('tag', ""),
         )
 
     class Meta:
