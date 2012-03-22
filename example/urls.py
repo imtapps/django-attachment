@@ -7,10 +7,11 @@ from attachments.models import Attachment
 from sample_app.models import Person
 
 def create(request):
-    form = TaggedAttachmentForm(request.POST or None, request.FILES or None)
+    instance = Attachment(attach_to=Person.objects.create())
+    form = TaggedAttachmentForm(request.POST or None, request.FILES or None, instance=instance)
 
     if form.is_valid():
-        form.save(Person.objects.create())
+        form.save()
         return http.HttpResponseRedirect("/")
 
     context = dict(

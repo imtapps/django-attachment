@@ -22,7 +22,7 @@ TEST_REQUIREMENTS = [
 def do_setup():
     setup(
         name="django-attachments",
-        version='0.0.9',
+        version='0.1.0',
         author="Matthew J. Morrison",
         author_email="mattjmorrison@mattjmorrison.com",
         description="A django app to allow attachments to any model.",

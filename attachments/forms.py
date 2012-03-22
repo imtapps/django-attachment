@@ -20,14 +20,6 @@ class RequiredAttachmentForm(forms.ModelForm):
         name = self.prefix + '-attachment'
         return self.files[name] if name in self.files else None
 
-    def save(self, model):
-        return models.Attachment.objects.create(
-            attach_to=model,
-            description=self.cleaned_data.get('description', None),
-            attachment=self._uploaded_file,
-            tag=self.cleaned_data.get('tag', ""),
-        )
-
     class Meta:
         model = models.Attachment
         fields = ('description', 'attachment')
