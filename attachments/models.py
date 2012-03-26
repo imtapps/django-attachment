@@ -88,7 +88,7 @@ class Attachment(models.Model):
     description = models.CharField(max_length=256, null=True, blank=True)
     attachment = LongBlob()
     file_name = models.CharField(max_length=256)
-    tag = models.CharField(max_length=50, blank=True, default="")
+    tag = models.CharField(max_length=50, blank=True, default="", db_index=True)
 
     #define when it was attached
     attached_at = models.DateTimeField(auto_now_add=True)
