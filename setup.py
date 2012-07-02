@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 from distutils.core import Command
 
 REQUIREMENTS = [
-    'Django==1.3.1',
+    'Django==1.4',
     'pillow',
     'South==0.7.3',
     'MySQL-python==1.2.3',
@@ -17,6 +17,8 @@ TEST_REQUIREMENTS = [
     'coverage',
     'pep8',
     'pyflakes',
+    'django_nose',
+    'nosexcover',
 ]
 
 def do_setup():
@@ -32,7 +34,6 @@ def do_setup():
         include_package_data=True,
         install_requires=REQUIREMENTS,
         tests_require=TEST_REQUIREMENTS,
-        test_suite='runtests.runtests',
         zip_safe=False,
         classifiers = [
             "Development Status :: 5 - Production/Stable",
@@ -70,7 +71,7 @@ class PipDependencies(Command):
         return re.sub(re.compile(r'([<>])'), r'\\\1', command_line_deps)
 
     def run(self):
-        os.system("pip %s %s" % (self.pip_command, self.get_all_dependencies()))
+        os.system("pip %s %s -i http://localhost:8888/simple/" % (self.pip_command, self.get_all_dependencies()))
 
 class InstallDependencies(PipDependencies):
     pip_command = 'install'

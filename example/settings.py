@@ -10,16 +10,10 @@ for p in (grandparent, parent):
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
-)
-
-MANAGERS = ADMINS
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'attachments',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'attachments',
         'USER':'attachment_user',
         'PASSWORD':'test',
         'HOST':'/opt/lampp/var/mysql/mysql.sock',
@@ -130,12 +124,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'attachments',
     'sample_app',
+    'django_nose',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
-
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.

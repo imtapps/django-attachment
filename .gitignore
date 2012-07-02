@@ -45,3 +45,7 @@ node_modules/*
 
 virtualenv
 dist/*
+jenkins_reports/*
+nosetests.xml
+coverage.xml
+.coverage

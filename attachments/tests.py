@@ -1,20 +1,14 @@
 from django import test
 from django.core.exceptions import ValidationError
-
+from django.conf import settings
+from django.core.urlresolvers import reverse
 from mock import Mock, patch
 import mock
 
-from attachments.models import *
+from attachments.models import Attachment
+from sample_app.models import First, Second
 from attachments import forms
 from attachments import views
-
-class First(models.Model):
-    first_field = models.CharField(max_length=10)
-    second_field = models.CharField(max_length=10)
-
-class Second(models.Model):
-    third_field = models.CharField(max_length=10)
-
 
 class AttachmentTests(test.TestCase):
 
