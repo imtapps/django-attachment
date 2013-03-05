@@ -71,7 +71,7 @@ class PipDependencies(Command):
         return re.sub(re.compile(r'([<>])'), r'\\\1', command_line_deps)
 
     def run(self):
-        os.system("pip %s %s -i http://localhost:8888/simple/" % (self.pip_command, self.get_all_dependencies()))
+        os.system("pip %s %s" % (self.pip_command, self.get_all_dependencies()))
 
 class InstallDependencies(PipDependencies):
     pip_command = 'install'
